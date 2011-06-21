@@ -22,8 +22,8 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QList>
 #include <QtCore/QIODevice>
-
-#include <klocale.h>
+#include <QtCore/QFileInfo>
+//#include <klocale.h>
 
 #include "keduvocdocument.h"
 #include "keduvoclesson.h"
@@ -33,14 +33,14 @@
 #include "keduvockvtmlreader.h"
 #include "keduvoccommon_p.h"
 
-#include <KDebug>
+#include <QDebug>
 
 KEduVocKvtml2Reader::KEduVocKvtml2Reader( QIODevice *file )
         : m_inputFile( file )
 {
     // the file must be already open
     if ( !m_inputFile->isOpen() ) {
-        m_errorMessage = i18n( "file must be opened first" );
+        m_errorMessage = tr( "file must be opened first" );
     }
 }
 
@@ -56,7 +56,7 @@ bool KEduVocKvtml2Reader::readDoc( KEduVocDocument *doc )
 
     QDomElement domElementKvtml = domDoc.documentElement();
     if ( domElementKvtml.tagName() != KVTML_TAG ) {
-        m_errorMessage = i18n( "This is not a KDE Vocabulary document." );
+        m_errorMessage = tr( "This is not a KDE Vocabulary document." );
         return false;
     }
 
@@ -161,7 +161,7 @@ bool KEduVocKvtml2Reader::readGroups( QDomElement &domElementParent )
     if ( !groupElement.isNull() ) {
         QDomNodeList entryList = groupElement.elementsByTagName( KVTML_IDENTIFIER );
         if ( entryList.length() <= 0 ) {
-            m_errorMessage = i18n( "missing identifier elements from identifiers tag" );
+            m_errorMessage = tr( "missing identifier elements from identifiers tag" );
             return false;
         }
 
@@ -210,7 +210,7 @@ bool KEduVocKvtml2Reader::readGroups( QDomElement &domElementParent )
     }
 
     // Additional cleanup: Put orphaned entries without a lesson into a default lesson.
-    KEduVocLesson *defaultLesson = new KEduVocLesson(i18n("Default Lesson"), m_doc->lesson());
+    KEduVocLesson *defaultLesson = new KEduVocLesson(tr("Default Lesson"), m_doc->lesson());
 
     // now make sure we don't have any orphan entries
     foreach (KEduVocExpression * entry, m_allEntries) {
@@ -236,7 +236,7 @@ bool KEduVocKvtml2Reader::readIdentifier( QDomElement &identifierElement )
     bool result = true;
     int id = identifierElement.attribute( KVTML_ID ).toInt( &result );
     if ( !result ) {
-        m_errorMessage = i18n( "identifier missing id" );
+        m_errorMessage = tr( "identifier missing id" );
         return false;
     }
 
@@ -285,7 +285,7 @@ bool KEduVocKvtml2Reader::readEntry( QDomElement &entryElement )
     // get entry id
     int id = entryElement.attribute( KVTML_ID ).toInt( &result );
     if ( !result ) {
-        m_errorMessage = i18n( "entry missing id" );
+        m_errorMessage = tr( "entry missing id" );
         return false;
     }
 
@@ -315,7 +315,7 @@ bool KEduVocKvtml2Reader::readEntry( QDomElement &entryElement )
     }
 
     if ( expr->translationIndices().size() == 0 ) {
-        kDebug() << "Found entry with no words in it." << id;
+        //kDebug() << "Found entry with no words in it." << id;
         expr->setTranslation(0, QString());
     }
 
@@ -357,13 +357,13 @@ bool KEduVocKvtml2Reader::readTranslation( QDomElement &translationElement,
     // image
     currentElement = translationElement.firstChildElement( KVTML_IMAGE );
     if ( !currentElement.isNull() ) {
-        expr->translation(index)->setImageUrl( KUrl( m_doc->url(), currentElement.text() ) );
+        expr->translation(index)->setImageUrl( QUrl( /*m_doc->url(),*/ currentElement.text() ) );
     }
 
     // sound
     currentElement = translationElement.firstChildElement( KVTML_SOUND );
     if ( !currentElement.isNull() ) {
-        expr->translation(index)->setSoundUrl( KUrl( m_doc->url(), currentElement.text() ) );
+        expr->translation(index)->setSoundUrl( QUrl( /*m_doc->url(),*/ currentElement.text() ) );
     }
 
     return true;
@@ -735,4 +735,4 @@ bool KEduVocKvtml2Reader::readPersonalPronounChild(QDomElement & personElement, 
 }
 
 
-#include "keduvockvtml2reader.moc"
+//#include "keduvockvtml2reader.moc"

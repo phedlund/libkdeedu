@@ -28,7 +28,7 @@
 #include <QIODevice>
 #include <QTextStream>
 
-#include <klocale.h>
+//#include <klocale.h>
 
 #include "keduvocdocument.h"
 #include "keduvoclesson.h"
@@ -55,7 +55,7 @@ bool KEduVocCsvReader::readDoc( KEduVocDocument *doc )
 
     int languageCount = 0;
 
-    KEduVocLesson* lesson = new KEduVocLesson( i18n("Vocabulary"), m_doc->lesson());
+    KEduVocLesson* lesson = new KEduVocLesson( QT_TR_NOOP("Vocabulary"), m_doc->lesson());
     m_doc->lesson()->appendChildContainer(lesson);
 
     while ( !inputStream.atEnd() ) {

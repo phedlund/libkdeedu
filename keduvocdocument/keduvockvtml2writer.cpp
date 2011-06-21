@@ -19,7 +19,7 @@
 #include <QtCore/QTextStream>
 #include <QtCore/QFile>
 
-#include <KDebug>
+//#include <KDebug>
 
 #include "keduvocdocument.h"
 #include "keduvocexpression.h"
@@ -499,7 +499,7 @@ bool KEduVocKvtml2Writer::writeTranslation( QDomElement &translationElement, KEd
 
     // comparison
     if ( !(translation->comparativeForm().text().isEmpty() || translation->superlativeForm().text().isEmpty())) {
-        kDebug() << "Write comp";
+        //kDebug() << "Write comp";
         QDomElement comparisonElement = m_domDoc.createElement( KVTML_COMPARISON );
         translationElement.appendChild(comparisonElement);
 
@@ -528,24 +528,24 @@ bool KEduVocKvtml2Writer::writeTranslation( QDomElement &translationElement, KEd
     // image
     if ( !translation->imageUrl().isEmpty() ) {
         QString urlString;
-        if ( translation->imageUrl().url().startsWith(m_doc->url().upUrl().url()) ) {
+        /*qtport if ( translation->imageUrl().url().startsWith(m_doc->url().upUrl().url()) ) {
             // try to save as relative url
             urlString = KUrl::relativeUrl( m_doc->url() , translation->imageUrl() );
-        } else {
-            urlString =  translation->imageUrl().url();
-        }
+        } else {*/
+            urlString =  translation->imageUrl().toString();
+        /*qtport }*/
         translationElement.appendChild( newTextElement( KVTML_IMAGE, urlString ) );
     }
 
     // sound
     if ( !translation->soundUrl().isEmpty() ) {
         QString urlString;
-        if ( translation->soundUrl().url().startsWith(m_doc->url().upUrl().url()) ) {
+        /*qtport if ( translation->soundUrl().url().startsWith(m_doc->url().upUrl().url()) ) {
             // try to save as relative url
             urlString = KUrl::relativeUrl( m_doc->url() , translation->soundUrl() );
-        } else {
-            urlString =  translation->soundUrl().url();
-        }
+        } else {*/
+            urlString =  translation->soundUrl().toString();
+        /*qtport }*/
         translationElement.appendChild( newTextElement( KVTML_SOUND, urlString ) );
     }
 

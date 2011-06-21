@@ -18,7 +18,7 @@
 
 #include <QIODevice>
 
-#include <KLocale>
+//#include <KLocale>
 
 #include "keduvocexpression.h"
 #include "keduvocdocument.h"
@@ -40,7 +40,7 @@ bool KEduVocXdxfReader::read( QIODevice *device )
             if ( name() == "xdxf" )
                 readXdxf();
             else
-                raiseError( i18n( "This is not a XDXF document" ) );
+                raiseError( /*i18n*/( "This is not a XDXF document" ) );
         }
     }
 

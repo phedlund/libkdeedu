@@ -21,7 +21,10 @@
 #define LIBKEDUVOCDOCUMENT_EXPORT_H
 
 /* needed for KDE_EXPORT and KDE_IMPORT macros */
-#include <kdemacros.h>
+//#include <kdemacros.h>
+#define KDE_EXPORT
+#define KDE_IMPORT
+#define KDE_DEPRECATED
 
 #ifndef KEDUVOCDOCUMENT_EXPORT
 # if defined(MAKE_KEDUVOCDOCUMENT_LIB)

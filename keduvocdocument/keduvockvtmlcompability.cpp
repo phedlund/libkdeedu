@@ -24,9 +24,9 @@
 #include "keduvockvtmlcompability.h"
 #include "keduvocwordtype.h"
 
-#include <KLocale>
-#include <KDebug>
-
+//#include <KLocale>
+//#include <KDebug>
+#include <QtCore/QStringList>
 const QString KEduVocKvtmlCompability::KVTML_1_USER_DEFINED = QString( "#" );
 const QString KEduVocKvtmlCompability::KVTML_1_SEPERATOR = QString( ":" );
 
@@ -44,7 +44,7 @@ KEduVocKvtmlCompability::KEduVocKvtmlCompability()
 ////////////////// TYPES /////////////////////////////////////////
 void KEduVocKvtmlCompability::initOldTypeLists()
 {
-    m_oldMainTypeNames.clear();
+    /*qtport m_oldMainTypeNames.clear();
     m_oldMainTypeNames.insert( "v", i18nc( "@item:inlistbox The grammatical type of a word", "Verb" ) );
     m_oldMainTypeNames.insert( "n", i18nc( "@item:inlistbox The grammatical type of a word", "Noun" ) );
     m_oldMainTypeNames.insert( "nm", i18nc( "@item:inlistbox The grammatical type of a word", "Name" ) );
@@ -70,7 +70,7 @@ void KEduVocKvtmlCompability::initOldTypeLists()
     m_oldSubTypeNames.insert( "per", i18nc( "@item:inlistbox A subtype of the grammatical word type: Pronoun (I, you, he...)", "Personal" ) );
     m_oldSubTypeNames.insert( "m", i18nc( "@item:inlistbox A subtype of the grammatical word type: Noun", "Male" ) );
     m_oldSubTypeNames.insert( "f", i18nc( "@item:inlistbox A subtype of the grammatical word type: Noun", "Female" ) );
-    m_oldSubTypeNames.insert( "s", i18nc( "@item:inlistbox A subtype of the grammatical word type: Noun", "Neutral" ) );
+    m_oldSubTypeNames.insert( "s", i18nc( "@item:inlistbox A subtype of the grammatical word type: Noun", "Neutral" ) ); end qtport */
 }
 
 
@@ -107,7 +107,7 @@ KEduVocWordType* KEduVocKvtmlCompability::typeFromOldFormat(KEduVocWordType* par
 
     QString typeName = m_oldMainTypeNames.value( mainType );
     if ( typeName.isEmpty() ) {
-        kDebug() << "Unknown old maintype: " << typeSubtypeString;
+        //kDebug() << "Unknown old maintype: " << typeSubtypeString;
         return 0;
     }
 
@@ -174,13 +174,13 @@ if ( oldType.length() >= 2 && type.left( 1 ) == QM_USER_TYPE ) {
 
 void KEduVocKvtmlCompability::initOldTenses()
 {
-    m_oldTenses["PrSi"] = i18n( "Simple Present" );
-    m_oldTenses["PrPr"] = i18n( "Present Progressive" );
-    m_oldTenses["PrPe"] = i18n( "Present Perfect" );
-    m_oldTenses["PaSi"] = i18n( "Simple Past" );
-    m_oldTenses["PaPr"] = i18n( "Past Progressive" );
-    m_oldTenses["PaPa"] = i18n( "Past Participle" );
-    m_oldTenses["FuSi"] = i18n( "Future" );
+    m_oldTenses["PrSi"] = /*i18n*/( "Simple Present" );
+    m_oldTenses["PrPr"] = /*i18n*/( "Present Progressive" );
+    m_oldTenses["PrPe"] = /*i18n*/( "Present Perfect" );
+    m_oldTenses["PaSi"] = /*i18n*/( "Simple Past" );
+    m_oldTenses["PaPr"] = /*i18n*/( "Past Progressive" );
+    m_oldTenses["PaPa"] = /*i18n*/( "Past Participle" );
+    m_oldTenses["FuSi"] = /*i18n*/( "Future" );
 }
 
 
@@ -190,7 +190,7 @@ void KEduVocKvtmlCompability::addUserdefinedTense(const QString & tense)
     m_oldTenses[KVTML_1_USER_DEFINED + QString::number( m_userdefinedTenseCounter )] = tense;
     m_tenses.insert(tense);
 
-    kDebug() << " Add tense: " << KVTML_1_USER_DEFINED + QString::number( m_userdefinedTenseCounter ) << " - " << tense;
+    //kDebug() << " Add tense: " << KVTML_1_USER_DEFINED + QString::number( m_userdefinedTenseCounter ) << " - " << tense;
 }
 
 
@@ -199,7 +199,7 @@ QString KEduVocKvtmlCompability::tenseFromKvtml1(const QString & oldTense)
     // in case the document got chaged, at least make up something as tense
     if (!m_oldTenses.keys().contains(oldTense)) {
         m_oldTenses[oldTense] = oldTense;
-        kDebug() << "Warning, tense " << oldTense << " not found in document!";
+        //kDebug() << "Warning, tense " << oldTense << " not found in document!";
     }
     m_tenses.insert(m_oldTenses.value(oldTense));
     return m_oldTenses.value(oldTense);
@@ -225,7 +225,7 @@ QString KEduVocKvtmlCompability::oldTense(const QString & tense)
 void KEduVocKvtmlCompability::setupWordTypes(KEduVocWordType * parent)
 {
     QStringList wordTypeNames;
-    wordTypeNames
+    /*qtport wordTypeNames
         << i18nc( "The grammatical type of a word", "Verb" ) // 0
         << i18nc( "The grammatical type of a word", "Noun" ) // 1
         << i18nc( "The grammatical type of a word", "Name" )
@@ -237,7 +237,7 @@ void KEduVocKvtmlCompability::setupWordTypes(KEduVocWordType * parent)
         << i18nc( "The grammatical type of a word", "Numeral" ) // 8
         << i18nc( "The grammatical type of a word", "Conjunction" )
         << i18nc( "The grammatical type of a word", "Preposition" )
-        << i18nc( "The grammatical type of an entry", "Question" );
+        << i18nc( "The grammatical type of an entry", "Question" ); 
 
     foreach (const QString &typeName, wordTypeNames) {
         KEduVocWordType* wordType = new KEduVocWordType(typeName, parent);
@@ -294,6 +294,6 @@ void KEduVocKvtmlCompability::setupWordTypes(KEduVocWordType * parent)
     pronoun->appendChildContainer(wordType);
     wordType = new KEduVocWordType(i18nc( "@item:inlistbox A subtype of the grammatical word type: Pronoun (I, you, he...)", "Personal" ), pronoun);
     wordType->setWordType(KEduVocWordFlag::Pronoun);
-    pronoun->appendChildContainer(wordType);
+    pronoun->appendChildContainer(wordType); end qtport*/
 }
 

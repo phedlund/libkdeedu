@@ -20,7 +20,7 @@
 #include <QFile>
 #include <QTextStream>
 
-#include <KLocale>
+//#include <KLocale>
 
 #include "keduvocdocument.h"
 #include "keduvoclesson.h"
@@ -46,8 +46,10 @@ bool KEduVocCsvWriter::writeDoc( KEduVocDocument *doc, const QString &generator 
     outputStream.setDevice( m_outputFile );
     outputStream.setCodec( "UTF-8" );
 
-    outputStream << i18nc( "@item:intable the title of the document will be written here", "Title:" )  << separator << m_doc->title() << "\n";
-    outputStream << i18nc( "@item:intable the author will be written here", "Author:" ) << separator << m_doc->author() << "\n";
+//    outputStream << i18nc( "@item:intable the title of the document will be written here", "Title:" )  << separator << m_doc->title() << "\n";
+//    outputStream << i18nc( "@item:intable the author will be written here", "Author:" ) << separator << m_doc->author() << "\n";
+    outputStream << ("Title:" )  << separator << m_doc->title() << "\n";
+    outputStream << ("Author:" ) << separator << m_doc->author() << "\n";
 
     KEduVocExpression *expression;
     int idCount = m_doc->identifierCount();

@@ -23,9 +23,9 @@
 #include <QtCore/QList>
 #include <QtCore/QIODevice>
 
-#include <kdebug.h>
-#include <klocale.h>
-#include <kglobal.h>
+//#include <kdebug.h>
+//#include <klocale.h>
+//#include <kglobal.h>
 
 #include "keduvocdocument.h"
 #include "keduvoclesson.h"
@@ -38,7 +38,7 @@ KEduVocKvtmlReader::KEduVocKvtmlReader( QIODevice *file )
     // the file must be already open
     m_inputFile = file;
     m_errorMessage = "";
-    kDebug() << "KEduVocKvtmlReader for kvtml version 1 files started.";
+    //kDebug() << "KEduVocKvtmlReader for kvtml version 1 files started.";
 }
 
 
@@ -55,7 +55,7 @@ bool KEduVocKvtmlReader::readDoc( KEduVocDocument *doc )
 
     QDomElement domElementKvtml = domDoc.documentElement();
     if ( domElementKvtml.tagName() != KV_DOCTYPE ) {
-        m_errorMessage = i18n( "This is not a KDE Vocabulary document." );
+        m_errorMessage = tr( "This is not a KDE Vocabulary document." );
         return false;
     }
 
@@ -231,7 +231,7 @@ bool KEduVocKvtmlReader::readLesson( QDomElement &domElementParent )
             lesson->setInPractice(inQuery);
             m_doc->lesson()->appendChildContainer( lesson );
             if ( m_doc->lesson()->childContainerCount() != no-1 ) {
-                kDebug() << "Warning! Lesson order may be confused. Are all lessons in order in the file?";
+                //kDebug() << "Warning! Lesson order may be confused. Are all lessons in order in the file?";
             }
         }
     }
@@ -621,7 +621,7 @@ bool KEduVocKvtmlReader::readType( QDomElement &domElementParent )
             // We need to even add empty elements since the old system relied on
             // the order. So "type1" "" "type2" should be just like that.
 
-            kDebug() << "Adding old self defined type: " << currentElement.text();
+            //kDebug() << "Adding old self defined type: " << currentElement.text();
             // add the type to the list of available types
             KEduVocWordType* type = new KEduVocWordType(currentElement.text(), m_doc->wordTypeContainer());
             m_doc->wordTypeContainer()->appendChildContainer( type );
@@ -641,7 +641,7 @@ bool KEduVocKvtmlReader::readTense( QDomElement &domElementParent )
 
     currentElement = domElementParent.firstChildElement( KV_TENSE_DESC );
     while ( !currentElement.isNull() ) {
-        kDebug() << "Reading user defined tense description: " << currentElement.text();
+        //kDebug() << "Reading user defined tense description: " << currentElement.text();
         m_compability.addUserdefinedTense( currentElement.text() );
         currentElement = currentElement.nextSiblingElement( KV_TENSE_DESC );
     }
@@ -901,9 +901,9 @@ bool KEduVocKvtmlReader::readExpression( QDomElement &domElementParent )
             ///@todo can this happen? does it need a while loop?
             // it's from a lesson that hasn't been added yet
             // so make sure this lesson is in the document
-            kDebug() << "Warning: lesson > m_doc->lessonCount() in readExpression.";
+            //kDebug() << "Warning: lesson > m_doc->lessonCount() in readExpression.";
 
-            KEduVocLesson* lesson = new KEduVocLesson(i18nc("A generic name for a new lesson and its number.", "Lesson %1", lessonNumber ), m_doc->lesson());
+            KEduVocLesson* lesson = new KEduVocLesson(tr(/*"A generic name for a new lesson and its number.",*/ "Lesson %1").arg( lessonNumber ), m_doc->lesson());
             m_doc->lesson()->appendChildContainer(lesson);
         }
     }
@@ -943,7 +943,7 @@ bool KEduVocKvtmlReader::readExpression( QDomElement &domElementParent )
     // kvtml 1: we always have an original element (required)
     currentElement = domElementParent.firstChildElement( KV_ORG );
     if ( currentElement.isNull() ) { // sanity check
-        m_errorMessage = i18n( "Data for original language missing" );
+        m_errorMessage = tr( "Data for original language missing" );
         return false;
     }
 
@@ -1068,23 +1068,23 @@ bool KEduVocKvtmlReader::addLanguage( int languageId, const QString& locale)
             m_doc->identifier(languageId).setLocale(locale);
 
             QString languageName;
-            if (KGlobal::locale()) {
+            /*qtport if (KGlobal::locale()) {
                 // when using from qt-only apps this would crash (converter)
                 languageName = KGlobal::locale()->languageCodeToName(locale);
-            }
+            }*/
             if ( languageName.isEmpty() ) {
                 languageName = locale;
             }
 
             m_doc->identifier(languageId).setName(languageName);
-            kDebug() << "addLanguage( " << languageId << ", " << locale << "): " << languageName;
+            //kDebug() << "addLanguage( " << languageId << ", " << locale << "): " << languageName;
 
         }
     } else {
         if ( !locale.isEmpty() ) {
             if ( locale != m_doc->identifier(languageId).locale() ) {
                 // different originals ?
-                m_errorMessage = i18n( "Ambiguous definition of language code" );
+                m_errorMessage = tr( "Ambiguous definition of language code" );
                 return false;
             }
         }
@@ -1093,4 +1093,4 @@ bool KEduVocKvtmlReader::addLanguage( int languageId, const QString& locale)
 }
 
 
-#include "keduvockvtmlreader.moc"
+//#include "keduvockvtmlreader.moc"

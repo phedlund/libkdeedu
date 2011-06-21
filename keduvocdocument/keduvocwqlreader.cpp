@@ -22,7 +22,7 @@
 #include <QIODevice>
 #include <QFont>
 
-#include <KLocale>
+//#include <KLocale>
 
 #include "keduvocdocument.h"
 #include "keduvocexpression.h"
@@ -47,18 +47,18 @@ bool KEduVocWqlReader::readDoc( KEduVocDocument *doc )
     QString s = "";
     s=inputStream.readLine();
     if ( s != "WordQuiz" ) {
-        m_errorMessage = i18n( "This does not appear to be a (K)WordQuiz file" );
+        m_errorMessage = /*i18n*/( "This does not appear to be a (K)WordQuiz file" );
         return false;
     }
     s = inputStream.readLine();
     s = s.left( 1 );
     int iFV = s.toInt( 0 );
     if ( iFV != 5 ) {
-        m_errorMessage = i18n( "Only files created by WordQuiz 5.x or later can be opened" );
+        m_errorMessage = /*i18n*/( "Only files created by WordQuiz 5.x or later can be opened" );
         return false;
     }
 
-    m_errorMessage = i18n( "Error while reading file" );
+    m_errorMessage = /*i18n*/( "Error while reading file" );
 
     while ( !inputStream.atEnd() && inputStream.readLine() != "[Font Info]" ) ;
     if ( inputStream.atEnd() )
@@ -139,7 +139,7 @@ bool KEduVocWqlReader::readDoc( KEduVocDocument *doc )
     if ( inputStream.atEnd() )
         return false;
 
-    KEduVocLesson* lesson = new KEduVocLesson( i18n("Vocabulary"), m_doc->lesson());
+    KEduVocLesson* lesson = new KEduVocLesson( /*i18n*/("Vocabulary"), m_doc->lesson());
     m_doc->lesson()->appendChildContainer(lesson);
 
     s = inputStream.readLine();

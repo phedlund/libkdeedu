@@ -18,7 +18,7 @@
 
 #include "keduvocexpression.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <QList>
 
 /** private class to store information about a lesson */
@@ -41,7 +41,7 @@ public:
     bool m_childLessonEntriesValid;
 
     /// Image url
-    KUrl m_imageUrl;
+    QUrl m_imageUrl;
 };
 
 KEduVocContainer::Private::~Private()
@@ -106,7 +106,7 @@ KEduVocContainer * KEduVocContainer::childContainer(const QString & name)
 
 void KEduVocContainer::deleteChildContainer(int row)
 {
-    kDebug() << "Delete of container - check entry deletion!";
+    qDebug() << "Delete of container - check entry deletion!";
     delete d->m_childContainers.takeAt(row);
 
     invalidateChildLessonEntries();
@@ -208,12 +208,12 @@ KEduVocContainer::EnumContainerType KEduVocContainer::containerType()
 }
 
 
-KUrl KEduVocContainer::imageUrl()
+QUrl KEduVocContainer::imageUrl()
 {
     return d->m_imageUrl;
 }
 
-void KEduVocContainer::setImageUrl(const KUrl &url)
+void KEduVocContainer::setImageUrl(const QUrl &url)
 {
     d->m_imageUrl = url;
 }

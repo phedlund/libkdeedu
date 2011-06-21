@@ -18,7 +18,7 @@
 
 #include <QIODevice>
 
-#include <KLocale>
+//#include <KLocale>
 
 #include "keduvocexpression.h"
 #include "keduvoclesson.h"
@@ -41,7 +41,7 @@ bool KEduVocPaukerReader::read( QIODevice * device )
             if ( name() == "Lesson" )
                 readPauker();
             else
-                raiseError( i18n( "This is not a Pauker document" ) );
+                raiseError( /*i18n*/( "This is not a Pauker document" ) );
         }
     }
 
@@ -127,7 +127,7 @@ void KEduVocPaukerReader::readCard()
         }
     }
 
-    KEduVocLesson* lesson = new KEduVocLesson(i18n("Vocabulary"), m_doc->lesson());
+    KEduVocLesson* lesson = new KEduVocLesson(/*i18n*/("Vocabulary"), m_doc->lesson());
     m_doc->lesson()->appendChildContainer(lesson);
 
     KEduVocExpression* expr = new KEduVocExpression( QStringList() << front << back);

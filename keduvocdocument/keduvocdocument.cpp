@@ -15,7 +15,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-//inserted a comment
+
 #include "keduvocdocument.h"
 
 #include <QtCore/QFileInfo>
